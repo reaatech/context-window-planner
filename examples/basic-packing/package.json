@@ -1,0 +1,16 @@
+{
+  "name": "@example/basic-packing",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node --import tsx/esm index.ts"
+  },
+  "dependencies": {
+    "@reaatech/context-window-planner": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

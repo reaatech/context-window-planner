@@ -2,7 +2,7 @@
  * Summarize and replace strategy for older items
  *
  * Actively summarizes older items to fit more content. Uses a compression ratio
- * to estimate summarized token counts.
+ * to estimate summarized token counts, and optionally delegates to a Summarizer.
  *
  * @module
  */
@@ -10,6 +10,7 @@
 import type { PackingContext, PackingStrategy } from './base.js';
 import type { ContextItem, PackWarning, PackingResult } from '../types/index.js';
 import type { Summarizable } from '../types/summarizable.js';
+import type { Summarizer } from '../types/summarizer.js';
 
 /**
  * Configuration options for the summarize-replace strategy
@@ -19,21 +20,26 @@ export interface SummarizeReplaceStrategyOptions {
   compressionRatio?: number;
   /** Maximum number of items to summarize */
   maxSummaries?: number;
+  /** Optional summarizer for compressing items */
+  summarizer?: Summarizer;
 }
 
 /**
  * Summarize and replace strategy for older items.
  *
  * Actively summarizes older items to fit more content.
+ * Falls back to Summarizable.summarize() when no Summarizer is provided.
  */
 export class SummarizeAndReplaceStrategy implements PackingStrategy {
   readonly name = 'summarize-replace';
   private readonly compressionRatio: number;
   private readonly maxSummaries: number;
+  private readonly summarizer?: Summarizer | undefined;
 
   constructor(options: SummarizeReplaceStrategyOptions = {}) {
     this.compressionRatio = options.compressionRatio ?? 0.3;
     this.maxSummaries = options.maxSummaries ?? 10;
+    this.summarizer = options.summarizer;
   }
 
   execute(context: PackingContext): PackingResult {
@@ -94,6 +100,10 @@ export class SummarizeAndReplaceStrategy implements PackingStrategy {
   }
 
   private summarizeItem(item: Summarizable): ContextItem {
+    if (this.summarizer) {
+      const targetTokens = Math.ceil(item.tokenCount * this.compressionRatio);
+      return this.summarizer.summarize(item, targetTokens);
+    }
     const targetTokens = Math.ceil(item.tokenCount * this.compressionRatio);
     return item.summarize(targetTokens);
   }

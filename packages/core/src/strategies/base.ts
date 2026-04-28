@@ -26,6 +26,9 @@ export interface PackingContext {
 
   /** Tokenizer for counting tokens */
   tokenizer: TokenizerAdapter;
+
+  /** Strategy-specific options */
+  options: StrategyOptions;
 }
 
 /**

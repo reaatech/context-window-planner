@@ -18,7 +18,22 @@ import type {
 } from './types/index.js';
 import { TokenBudget as TokenBudgetClass } from './types/index.js';
 import { Priority } from './types/priority.js';
+import { PackingMemoizer } from './utils/memoize.js';
 import { validateBudget, validateContextItem } from './utils/validation.js';
+
+/**
+ * Result of a multi-turn planning operation.
+ */
+export interface TurnPlan {
+  /** Estimated number of concurrent turns that can fit */
+  readonly turnCount: number;
+  /** Tokens reserved per turn */
+  readonly tokensPerTurn: number;
+  /** Tokens remaining after reservation */
+  readonly remainingForStatic: number;
+  /** Whether the plan is feasible */
+  readonly feasible: boolean;
+}
 
 /**
  * Configuration options for ContextPlanner
@@ -51,6 +66,8 @@ export class ContextPlanner {
   private readonly tokenizer: TokenizerAdapter;
   private readonly strategy: PackingStrategy;
   private items: ReadonlyArray<ContextItem> = [];
+  #memoizer: PackingMemoizer;
+  #dirty: boolean = true;
 
   constructor(options: ContextPlannerOptions) {
     const safetyMargin = options.safetyMargin ?? 0.05;
@@ -70,6 +87,7 @@ export class ContextPlanner {
     this.tokenizer = options.tokenizer;
     this.strategy = options.strategy;
     this.budget = new TokenBudgetClass(options.budget, totalReserved);
+    this.#memoizer = new PackingMemoizer();
   }
 
   /**
@@ -81,6 +99,8 @@ export class ContextPlanner {
   add(item: ContextItem): this {
     validateContextItem(item);
     this.items = [...this.items, item];
+    this.#memoizer.invalidate();
+    this.#dirty = true;
     return this;
   }
 
@@ -95,6 +115,8 @@ export class ContextPlanner {
       validateContextItem(item);
     }
     this.items = [...this.items, ...items];
+    this.#memoizer.invalidate();
+    this.#dirty = true;
     return this;
   }
 
@@ -106,6 +128,8 @@ export class ContextPlanner {
    */
   remove(id: string): this {
     this.items = this.items.filter((item) => item.id !== id);
+    this.#memoizer.invalidate();
+    this.#dirty = true;
     return this;
   }
 
@@ -117,6 +141,8 @@ export class ContextPlanner {
    */
   removeByType(type: string): this {
     this.items = this.items.filter((item) => item.type !== type);
+    this.#memoizer.invalidate();
+    this.#dirty = true;
     return this;
   }
 
@@ -126,10 +152,16 @@ export class ContextPlanner {
    * @returns The packing result with included, summarized, and dropped items
    */
   pack(): PackingResult {
+    const cached = this.#memoizer.get(this.items, this.budget);
+    if (cached !== null) {
+      return cached;
+    }
+
     const context: PackingContext = {
       budget: this.budget,
       items: this.items,
       tokenizer: this.tokenizer,
+      options: {},
     };
 
     const result = this.strategy.execute(context);
@@ -141,7 +173,72 @@ export class ContextPlanner {
       );
     }
 
+    this.#memoizer.set(this.items, this.budget, result);
+    this.#dirty = false;
     return result;
+  }
+
+  /**
+   * Re-pack items, reusing the last result if the state is unchanged.
+   *
+   * This is a convenience method that delegates to `pack()` with
+   * memoization. If items have not changed since the last pack,
+   * the cached result is returned instantly.
+   *
+   * @returns The packing result
+   */
+  repack(): PackingResult {
+    return this.pack();
+  }
+
+  /**
+   * Plan for multi-turn conversations by estimating how many
+   * conversation turns can fit in the budget alongside static items.
+   *
+   * Calculates the average token count of existing conversation turns,
+   * reserves space for them, and returns a plan with the estimated
+   * turn capacity.
+   *
+   * @param maxTurns - Maximum desired turns (default: unlimited)
+   * @returns A turn plan with feasibility information
+   */
+  plan(maxTurns: number = Number.MAX_SAFE_INTEGER): TurnPlan {
+    const staticItems = this.items.filter((item) => item.type !== 'conversation_turn');
+    const turns = this.items.filter((item) => item.type === 'conversation_turn');
+
+    const staticTokens = staticItems.reduce((sum, item) => sum + item.tokenCount, 0);
+    const avgTurnTokens =
+      turns.length > 0
+        ? Math.ceil(turns.reduce((sum, item) => sum + item.tokenCount, 0) / turns.length)
+        : 200;
+
+    const availableForTurns = this.budget.available - staticTokens;
+
+    if (availableForTurns <= 0) {
+      return {
+        turnCount: 0,
+        tokensPerTurn: avgTurnTokens,
+        remainingForStatic:
+          staticTokens <= this.budget.available ? staticTokens : this.budget.available,
+        feasible: false,
+      };
+    }
+
+    const feasibleTurns = Math.min(Math.floor(availableForTurns / avgTurnTokens), maxTurns);
+
+    return {
+      turnCount: feasibleTurns,
+      tokensPerTurn: avgTurnTokens,
+      remainingForStatic: this.budget.available - feasibleTurns * avgTurnTokens,
+      feasible: feasibleTurns > 0,
+    };
+  }
+
+  /**
+   * Whether the planner state has changed since the last pack.
+   */
+  get isDirty(): boolean {
+    return this.#dirty;
   }
 
   /**
@@ -206,6 +303,8 @@ export class ContextPlanner {
    */
   clear(): this {
     this.items = [];
+    this.#memoizer.invalidate();
+    this.#dirty = true;
     return this;
   }
 

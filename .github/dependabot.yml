@@ -1,0 +1,103 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "root"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/core"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "packages"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/examples/basic-packing"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/examples/with-rag"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/examples/conversation-management"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"
+
+  - package-ecosystem: "npm"
+    directory: "/examples/custom-strategy"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: increase
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    allow:
+      - dependency-type: "production"
+        update-types:
+          - "major"
+      - dependency-type: "development"
+        update-types:
+          - "major"

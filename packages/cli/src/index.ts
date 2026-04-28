@@ -7,6 +7,7 @@
  */
 
 import { ContextPlanner, strategies, tokenizers } from '@reaatech/context-window-planner';
+import type { ContextItemType } from '@reaatech/context-window-planner';
 
 interface CliInput {
   budget: number;
@@ -55,7 +56,7 @@ async function main(): Promise<void> {
 
     const contextItems = parsed.items.map((item) => ({
       id: item.id,
-      type: item.type as string,
+      type: item.type as ContextItemType,
       priority: item.priority,
       tokenCount: item.tokenCount ?? t.count(item.content),
       metadata: item.metadata,

@@ -32,7 +32,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "@reaatech/*": ["packages/*/src"]
+      "@reaatech/context-window-planner": ["packages/core/src"]
     }
   },
   "exclude": ["node_modules", "dist", "coverage"]

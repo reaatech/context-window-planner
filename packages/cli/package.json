@@ -1,0 +1,33 @@
+{
+  "name": "@reaatech/context-window-planner-cli",
+  "version": "0.1.0",
+  "description": "CLI tool for context-window-planner",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "cwp": "./dist/index.js"
+  },
+  "license": "MIT",
+  "author": "Rick Somers <rick@reaatech.com> (https://reaatech.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reaatech/context-window-planner.git",
+    "directory": "packages/cli"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@reaatech/context-window-planner": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

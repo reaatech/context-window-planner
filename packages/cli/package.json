@@ -1,5 +1,5 @@
 {
-  "name": "@reaatech/context-window-planner-cli",
+  "name": "context-window-planner-cli",
   "version": "0.1.0",
   "description": "CLI tool for context-window-planner",
   "type": "module",
@@ -20,7 +20,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@reaatech/context-window-planner": "workspace:*"
+    "context-window-planner": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

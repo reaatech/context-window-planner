@@ -4,17 +4,17 @@
   <a href="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml">
     <img src="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://www.npmjs.com/package/@reaatech/context-window-planner">
-    <img src="https://img.shields.io/npm/v/@reaatech/context-window-planner" alt="npm version">
+  <a href="https://www.npmjs.com/package/context-window-planner">
+    <img src="https://img.shields.io/npm/v/context-window-planner" alt="npm version">
   </a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/npm/l/@reaatech/context-window-planner" alt="license">
+    <img src="https://img.shields.io/npm/l/context-window-planner" alt="license">
   </a>
   <a href="https://www.typescriptlang.org/">
     <img src="https://img.shields.io/badge/TypeScript-5.3-blue" alt="TypeScript">
   </a>
   <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/node/v/@reaatech/context-window-planner" alt="node">
+    <img src="https://img.shields.io/node/v/context-window-planner" alt="node">
   </a>
 </p>
 
@@ -59,9 +59,9 @@ returns a deterministic packing decision with machine-readable warnings.
 ## Installation
 
 ```bash
-npm install @reaatech/context-window-planner
+npm install context-window-planner
 # or
-pnpm add @reaatech/context-window-planner
+pnpm add context-window-planner
 ```
 
 Requires Node.js ≥ 18.
@@ -76,7 +76,7 @@ import {
   createSystemPrompt,
   createConversationTurn,
   createGenerationBuffer,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = createTokenizer('gpt-4');
 
@@ -205,9 +205,9 @@ interface PackingResult {
 
 This repository is a pnpm monorepo.
 
-| Package                                             | Description                                                             |
-| --------------------------------------------------- | ----------------------------------------------------------------------- |
-| [`@reaatech/context-window-planner`](packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives. |
+| Package                                   | Description                                                             |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| [`context-window-planner`](packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives. |
 
 ## API reference
 

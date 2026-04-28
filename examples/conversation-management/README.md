@@ -7,6 +7,6 @@ and let older ones be summarized or dropped.
 
 ```bash
 pnpm install
-pnpm --filter @reaatech/context-window-planner build
+pnpm --filter context-window-planner build
 pnpm --filter @example/conversation-management start
 ```

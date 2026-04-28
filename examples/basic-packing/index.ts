@@ -13,7 +13,7 @@ import {
   createPriorityGreedyStrategy,
   createSystemPrompt,
   Priority,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = createMockTokenizer();
 

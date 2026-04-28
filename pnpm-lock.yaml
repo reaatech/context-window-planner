@@ -56,7 +56,7 @@ importers:
 
   examples/basic-packing:
     dependencies:
-      '@reaatech/context-window-planner':
+      context-window-planner:
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -69,7 +69,7 @@ importers:
 
   examples/conversation-management:
     dependencies:
-      '@reaatech/context-window-planner':
+      context-window-planner:
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -82,7 +82,7 @@ importers:
 
   examples/custom-strategy:
     dependencies:
-      '@reaatech/context-window-planner':
+      context-window-planner:
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -95,7 +95,7 @@ importers:
 
   examples/with-rag:
     dependencies:
-      '@reaatech/context-window-planner':
+      context-window-planner:
         specifier: workspace:*
         version: link:../../packages/core
     devDependencies:
@@ -108,7 +108,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@reaatech/context-window-planner':
+      context-window-planner:
         specifier: workspace:*
         version: link:../core
     devDependencies:

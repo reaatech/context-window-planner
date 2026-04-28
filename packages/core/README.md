@@ -1,4 +1,4 @@
-# @reaatech/context-window-planner
+# context-window-planner
 
 Optimize token allocation within LLM context windows. A small, dependency-light
 library for deciding **what to include, what to summarize, and what to drop**
@@ -17,9 +17,9 @@ when you're packing prompts for Claude, GPT, and other LLMs.
 ## Install
 
 ```bash
-npm install @reaatech/context-window-planner
+npm install context-window-planner
 # or
-pnpm add @reaatech/context-window-planner
+pnpm add context-window-planner
 ```
 
 Node >= 18 is required.
@@ -35,7 +35,7 @@ import {
   createConversationTurn,
   createGenerationBuffer,
   Priority,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = createTokenizer('gpt-4');
 
@@ -149,7 +149,7 @@ import type {
   PackingStrategy,
   PackingContext,
   PackingResult,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 export class MyStrategy implements PackingStrategy {
   readonly name = 'my-strategy';
@@ -187,7 +187,7 @@ All errors extend `ContextPlannerError` and carry a stable `code`:
 Catch the base class if you just want a yes/no signal:
 
 ```ts
-import { ContextPlannerError } from '@reaatech/context-window-planner';
+import { ContextPlannerError } from 'context-window-planner';
 
 try {
   planner.pack();

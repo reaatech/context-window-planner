@@ -13,7 +13,7 @@ import {
   createMockTokenizer,
   createSlidingWindowStrategy,
   createSystemPrompt,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = createMockTokenizer();
 const now = Date.now();

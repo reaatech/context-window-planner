@@ -6,8 +6,8 @@
  * @module
  */
 
-import { ContextPlanner, strategies, tokenizers } from '@reaatech/context-window-planner';
-import type { ContextItemType } from '@reaatech/context-window-planner';
+import { ContextPlanner, strategies, tokenizers } from 'context-window-planner';
+import type { ContextItemType } from 'context-window-planner';
 
 interface CliInput {
   budget: number;

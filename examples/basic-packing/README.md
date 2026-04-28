@@ -7,6 +7,6 @@ prints the packing decision.
 
 ```bash
 pnpm install
-pnpm --filter @reaatech/context-window-planner build
+pnpm --filter context-window-planner build
 pnpm --filter @example/basic-packing start
 ```

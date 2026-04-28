@@ -16,7 +16,7 @@ import {
   RAGChunk,
   GenerationBuffer,
   Priority,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 function createFakeTokenizer() {
   return tokenizers.create('mock');

@@ -18,18 +18,18 @@ export function createReadme() {
   return {
     type: 'file',
     name: 'packages/core/README.md',
-    content: `# @reaatech/context-window-planner
+    content: `# context-window-planner
 
 Optimize token allocation within LLM context windows. A TypeScript library that solves context window packing as a resource allocation problem.
 
 ## Installation
 
 \`\`\`bash
-npm install @reaatech/context-window-planner
+npm install context-window-planner
 # or
-pnpm add @reaatech/context-window-planner
+pnpm add context-window-planner
 # or
-yarn add @reaatech/context-window-planner
+yarn add context-window-planner
 \`\`\`
 
 ## Quick Start
@@ -43,7 +43,7 @@ import {
   Priority,
   strategies,
   tokenizers,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 // Create a planner with token budget
 const tokenizer = tokenizers.create('gpt-4');
@@ -197,7 +197,7 @@ export function createTypeDocConfig() {
   },
   "navigationLinks": {
     "GitHub": "https://github.com/reaatech/context-window-planner",
-    "npm": "https://www.npmjs.com/package/@reaatech/context-window-planner"
+    "npm": "https://www.npmjs.com/package/context-window-planner"
   }
 }
 `,
@@ -224,7 +224,7 @@ import {
   Priority,
   strategies,
   tokenizers,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 
@@ -265,7 +265,7 @@ import {
   SystemPrompt,
   strategies,
   tokenizers,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 
@@ -305,7 +305,7 @@ import {
   SystemPrompt,
   strategies,
   tokenizers,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 

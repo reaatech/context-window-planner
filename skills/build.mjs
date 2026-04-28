@@ -80,7 +80,7 @@ export function createPackageScripts() {
     type: 'file',
     name: 'packages/core/package.json',
     content: `{
-  "name": "@reaatech/context-window-planner",
+  "name": "context-window-planner",
   "version": "0.1.0",
   "description": "Optimize token allocation within LLM context windows",
   "type": "module",
@@ -371,10 +371,7 @@ export function createTsConfig() {
     "sourceMap": true,
     
     // Paths (for monorepo)
-    "baseUrl": ".",
-    "paths": {
-      "@reaatech/*": ["packages/*/src"]
-    }
+    "baseUrl": "."
   },
   "exclude": [
     "node_modules",

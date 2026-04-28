@@ -15,7 +15,7 @@ import {
   createRAGChunk,
   createRAGSelectionStrategy,
   createSystemPrompt,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const tokenizer = createMockTokenizer();
 

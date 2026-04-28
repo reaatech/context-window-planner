@@ -16,7 +16,7 @@ import {
   type PackingContext,
   type PackingResult,
   type PackingStrategy,
-} from '@reaatech/context-window-planner';
+} from 'context-window-planner';
 
 const TYPE_WEIGHTS: Record<string, number> = {
   system_prompt: 1000,

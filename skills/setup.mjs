@@ -154,7 +154,7 @@ export function createPackage(name, options = {}) {
         description: 'Initialize package.json',
         files: {
           [`packages/${name}/package.json`]: `{
-  "name": "@reaatech/${name}",
+  "name": "${name}",
   "version": "0.0.1",
   "description": "${description || `A ${type} package for context-window-planner`}",
   "type": "module",

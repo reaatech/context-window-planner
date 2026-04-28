@@ -76,7 +76,7 @@ jobs:
             ## Installation
 
             \`\`\`bash
-            npm install @reaatech/context-window-planner@\${{ github.ref_name }}
+            npm install context-window-planner@\${{ github.ref_name }}
             \`\`\`
           draft: false
           prerelease: \${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}
@@ -285,7 +285,7 @@ Use this checklist before publishing a new version.
 
 - [ ] Verify npm package published
 - [ ] Verify GitHub release created
-- [ ] Test installation: \`npm install @reaatech/context-window-planner@latest\`
+- [ ] Test installation: \`npm install context-window-planner@latest\`
 - [ ] Announce release (if significant)
 
 ## Version Guidelines

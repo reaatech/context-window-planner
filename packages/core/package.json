@@ -1,5 +1,5 @@
 {
-  "name": "@reaatech/context-window-planner",
+  "name": "context-window-planner",
   "version": "0.1.0",
   "description": "Optimize token allocation within LLM context windows",
   "type": "module",

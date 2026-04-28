@@ -87,7 +87,7 @@ directories.
 pnpm test
 
 # Run tests for a specific package
-pnpm --filter @reaatech/context-window-planner test
+pnpm --filter context-window-planner test
 
 # Run with coverage
 pnpm test:coverage

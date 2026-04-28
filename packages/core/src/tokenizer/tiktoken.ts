@@ -9,6 +9,7 @@
 import { encodingForModel, type TiktokenModel } from 'js-tiktoken';
 
 import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
+import { TokenCache } from '../utils/token-cache.js';
 
 /**
  * Configuration options for the Tiktoken tokenizer
@@ -27,14 +28,12 @@ export interface TiktokenTokenizerOptions {
  */
 export class TiktokenTokenizerAdapter implements TokenizerAdapter {
   readonly model: string;
-  #cache: Map<string, number>;
-  #cacheLimit: number;
+  #cache: TokenCache;
   #encoder: ReturnType<typeof encodingForModel>;
 
   constructor(options: TiktokenTokenizerOptions = {}) {
     this.model = options.model ?? 'gpt-4';
-    this.#cache = new Map();
-    this.#cacheLimit = options.cacheLimit ?? 10000;
+    this.#cache = new TokenCache(options.cacheLimit ?? 10000);
     this.#encoder = encodingForModel(this.model as TiktokenModel);
   }
 
@@ -55,13 +54,6 @@ export class TiktokenTokenizerAdapter implements TokenizerAdapter {
     }
 
     const tokenCount = this.#encoder.encode(text).length;
-
-    if (this.#cache.size >= this.#cacheLimit) {
-      const firstKey = this.#cache.keys().next().value;
-      if (firstKey) {
-        this.#cache.delete(firstKey);
-      }
-    }
     this.#cache.set(text, tokenCount);
 
     return tokenCount;
@@ -110,10 +102,7 @@ export class TiktokenTokenizerAdapter implements TokenizerAdapter {
    * Get cache statistics.
    */
   getCacheStats(): { size: number; limit: number } {
-    return {
-      size: this.#cache.size,
-      limit: this.#cacheLimit,
-    };
+    return this.#cache.getStats();
   }
 }
 

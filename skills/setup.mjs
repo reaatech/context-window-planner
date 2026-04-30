@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Project Setup
- * 
+ *
  * This skill defines the patterns and procedures for initializing and configuring
- * the context-window-planner project environment.
+ * the @reaatech/context-window-planner project environment.
  */
 
 export const skill = {
@@ -20,9 +20,7 @@ export function initializeWorkspace() {
       {
         id: 'init-pnpm',
         description: 'Initialize pnpm workspace',
-        commands: [
-          'pnpm init',
-        ],
+        commands: ['pnpm init'],
         files: {
           'pnpm-workspace.yaml': `packages:
   - 'packages/*'`,
@@ -31,9 +29,7 @@ export function initializeWorkspace() {
       {
         id: 'init-typescript',
         description: 'Configure TypeScript',
-        commands: [
-          'pnpm add -wD typescript',
-        ],
+        commands: ['pnpm add -wD typescript'],
         files: {
           'tsconfig.base.json': `{
   "compilerOptions": {
@@ -71,10 +67,7 @@ export function initializeWorkspace() {
       {
         id: 'init-git',
         description: 'Initialize Git repository',
-        commands: [
-          'git init',
-          'git branch -M main',
-        ],
+        commands: ['git init', 'git branch -M main'],
       },
       {
         id: 'create-gitignore',
@@ -122,9 +115,7 @@ temp/
       {
         id: 'init-husky',
         description: 'Initialize husky v9 pre-commit hooks',
-        commands: [
-          'npx husky init',
-        ],
+        commands: ['npx husky init'],
         files: {
           '.husky/pre-commit': `pnpm lint-staged
 `,
@@ -139,15 +130,13 @@ temp/
  */
 export function createPackage(name, options = {}) {
   const { type = 'lib', description = '' } = options;
-  
+
   return {
     steps: [
       {
         id: 'create-package-dir',
         description: `Create packages/${name} directory`,
-        commands: [
-          `mkdir -p packages/${name}`,
-        ],
+        commands: [`mkdir -p packages/${name}`],
       },
       {
         id: 'init-package-json',
@@ -156,7 +145,7 @@ export function createPackage(name, options = {}) {
           [`packages/${name}/package.json`]: `{
   "name": "${name}",
   "version": "0.0.1",
-  "description": "${description || `A ${type} package for context-window-planner`}",
+  "description": "${description || `A ${type} package for @reaatech/context-window-planner`}",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -205,10 +194,7 @@ export function createPackage(name, options = {}) {
       {
         id: 'create-src-dir',
         description: 'Create source directory structure',
-        commands: [
-          `mkdir -p packages/${name}/src`,
-          `touch packages/${name}/src/index.ts`,
-        ],
+        commands: [`mkdir -p packages/${name}/src`, `touch packages/${name}/src/index.ts`],
       },
       {
         id: 'create-vitest-config',
@@ -260,9 +246,7 @@ export function setupPreCommitHooks() {
       {
         id: 'verify-husky',
         description: 'Ensure husky pre-commit hook exists',
-        commands: [
-          'test -f .husky/pre-commit || echo "pnpm lint-staged" > .husky/pre-commit',
-        ],
+        commands: ['test -f .husky/pre-commit || echo "pnpm lint-staged" > .husky/pre-commit'],
       },
     ],
   };
@@ -277,10 +261,7 @@ export function initGitHub() {
       {
         id: 'create-github-dirs',
         description: 'Create GitHub configuration directories',
-        commands: [
-          'mkdir -p .github/workflows',
-          'mkdir -p .github/ISSUE_TEMPLATE',
-        ],
+        commands: ['mkdir -p .github/workflows', 'mkdir -p .github/ISSUE_TEMPLATE'],
       },
       {
         id: 'create-ci-workflow',

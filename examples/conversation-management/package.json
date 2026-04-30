@@ -7,7 +7,7 @@
     "start": "node --import tsx/esm index.ts"
   },
   "dependencies": {
-    "context-window-planner": "workspace:*"
+    "@reaatech/context-window-planner": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.7.0",

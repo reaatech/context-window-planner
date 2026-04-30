@@ -1,20 +1,20 @@
-# context-window-planner
+# @reaatech/context-window-planner
 
 <p align="center">
   <a href="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml">
     <img src="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://www.npmjs.com/package/context-window-planner">
-    <img src="https://img.shields.io/npm/v/context-window-planner" alt="npm version">
+  <a href="https://www.npmjs.com/package/@reaatech/context-window-planner">
+    <img src="https://img.shields.io/npm/v/@reaatech/context-window-planner" alt="npm version">
   </a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/npm/l/context-window-planner" alt="license">
+    <img src="https://img.shields.io/npm/l/@reaatech/context-window-planner" alt="license">
   </a>
   <a href="https://www.typescriptlang.org/">
     <img src="https://img.shields.io/badge/TypeScript-5.3-blue" alt="TypeScript">
   </a>
   <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/node/v/context-window-planner" alt="node">
+    <img src="https://img.shields.io/node/v/@reaatech/context-window-planner" alt="node">
   </a>
 </p>
 
@@ -35,7 +35,7 @@ results — all competing for a fixed token budget. Existing solutions are:
 - **Hard to test** — edge cases (over-full budget, summarization fallback)
   missed
 
-**context-window-planner** treats context packing as a resource allocation
+**@reaatech/context-window-planner** treats context packing as a resource allocation
 problem. Give it a token budget, a set of prioritized items, and a strategy — it
 returns a deterministic packing decision with machine-readable warnings.
 
@@ -59,9 +59,9 @@ returns a deterministic packing decision with machine-readable warnings.
 ## Installation
 
 ```bash
-npm install context-window-planner
+npm install @reaatech/context-window-planner
 # or
-pnpm add context-window-planner
+pnpm add @reaatech/context-window-planner
 ```
 
 Requires Node.js ≥ 18.
@@ -76,7 +76,7 @@ import {
   createSystemPrompt,
   createConversationTurn,
   createGenerationBuffer,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const tokenizer = createTokenizer('gpt-4');
 
@@ -207,7 +207,8 @@ This repository is a pnpm monorepo.
 
 | Package                                   | Description                                                             |
 | ----------------------------------------- | ----------------------------------------------------------------------- |
-| [`context-window-planner`](packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives. |
+| [`@reaatech/context-window-planner`](packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives. |
+| [`@reaatech/context-window-planner-cli`](packages/cli) | CLI tool: read items from stdin, output a packing plan as JSON. |
 
 ## API reference
 

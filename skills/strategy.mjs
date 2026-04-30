@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Packing Strategies
- * 
+ *
  * This skill defines patterns and procedures for implementing packing strategies
- * in the context-window-planner project.
+ * in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -15,13 +15,10 @@ export const skill = {
  * Template for a new packing strategy
  */
 export function createStrategy(name, description, algorithm, options = {}) {
-  const {
-    configProperties = [],
-    additionalMethods = [],
-  } = options;
+  const { configProperties = [], additionalMethods = [] } = options;
 
   const fileName = `packages/core/src/strategies/${name}.ts`;
-  
+
   return {
     type: 'file',
     name: fileName,
@@ -46,8 +43,12 @@ import { Priority } from '../types/priority.js';
  * Configuration options for the ${name} strategy
  */
 export interface ${capitalize(name)}StrategyOptions {
-  ${configProperties.map(p => `/** ${p.description} */
-  ${p.name}${p.optional ? '?' : ''}: ${p.type};`).join('\n  ')}
+  ${configProperties
+    .map(
+      (p) => `/** ${p.description} */
+  ${p.name}${p.optional ? '?' : ''}: ${p.type};`,
+    )
+    .join('\n  ')}
 }
 
 /**
@@ -57,23 +58,29 @@ export interface ${capitalize(name)}StrategyOptions {
  */
 export class ${capitalize(name)}Strategy implements PackingStrategy {
   readonly name = '${name}';
-  ${configProperties.map(p => `
+  ${configProperties
+    .map(
+      (p) => `
   /** ${p.description} */
-  private readonly _${p.name}: ${p.type};`).join('')}
+  private readonly _${p.name}: ${p.type};`,
+    )
+    .join('')}
 
   constructor(options: ${capitalize(name)}StrategyOptions = {}) {
-    ${configProperties.map(p => {
-      if (p.default !== undefined) {
-        return `this._${p.name} = options.${p.name} ?? ${p.default};`;
-      }
-      if (p.required) {
-        return `if (options.${p.name} === undefined) {
+    ${configProperties
+      .map((p) => {
+        if (p.default !== undefined) {
+          return `this._${p.name} = options.${p.name} ?? ${p.default};`;
+        }
+        if (p.required) {
+          return `if (options.${p.name} === undefined) {
         throw new Error('${p.name} is required for ${name} strategy');
       }
       this._${p.name} = options.${p.name} as ${p.type};`;
-      }
-      return `this._${p.name} = options.${p.name} as ${p.type};`;
-    }).join('\n    ')}
+        }
+        return `this._${p.name} = options.${p.name} as ${p.type};`;
+      })
+      .join('\n    ')}
   }
 
   /**
@@ -257,52 +264,115 @@ export interface StrategyFactory {
  * Create the Priority Greedy strategy
  */
 export function createPriorityGreedyStrategy() {
-  return createStrategy('priority-greedy', 'Priority-based greedy packing strategy', 
-    'Fills the context window by priority, highest first. Within the same priority level, uses first-come-first-served ordering.', {
-    configProperties: [
-      { name: 'safetyMargin', type: 'number', description: 'Safety margin as a fraction of budget', default: '0.05', optional: true },
-    ],
-  });
+  return createStrategy(
+    'priority-greedy',
+    'Priority-based greedy packing strategy',
+    'Fills the context window by priority, highest first. Within the same priority level, uses first-come-first-served ordering.',
+    {
+      configProperties: [
+        {
+          name: 'safetyMargin',
+          type: 'number',
+          description: 'Safety margin as a fraction of budget',
+          default: '0.05',
+          optional: true,
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create the Sliding Window strategy
  */
 export function createSlidingWindowStrategy() {
-  return createStrategy('sliding-window', 'Sliding window strategy for conversation history',
-    'Keeps the most recent N conversation turns, then fills remaining space with other items by priority. Older turns are candidates for summarization or dropping.', {
-    configProperties: [
-      { name: 'windowSize', type: 'number', description: 'Number of recent turns to keep', required: true },
-      { name: 'prioritizeRecent', type: 'boolean', description: 'Whether to prioritize recent turns', default: 'true', optional: true },
-    ],
-  });
+  return createStrategy(
+    'sliding-window',
+    'Sliding window strategy for conversation history',
+    'Keeps the most recent N conversation turns, then fills remaining space with other items by priority. Older turns are candidates for summarization or dropping.',
+    {
+      configProperties: [
+        {
+          name: 'windowSize',
+          type: 'number',
+          description: 'Number of recent turns to keep',
+          required: true,
+        },
+        {
+          name: 'prioritizeRecent',
+          type: 'boolean',
+          description: 'Whether to prioritize recent turns',
+          default: 'true',
+          optional: true,
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create the Summarize and Replace strategy
  */
 export function createSummarizeReplaceStrategy() {
-  return createStrategy('summarize-replace', 'Summarize and replace strategy for older items',
-    'Actively summarizes older items to fit more content. Uses a compression ratio to estimate summarized token counts.', {
-    configProperties: [
-      { name: 'compressionRatio', type: 'number', description: 'Expected compression ratio (0-1)', default: '0.3', optional: true },
-      { name: 'maxSummaries', type: 'number', description: 'Maximum number of items to summarize', default: '10', optional: true },
-    ],
-  });
+  return createStrategy(
+    'summarize-replace',
+    'Summarize and replace strategy for older items',
+    'Actively summarizes older items to fit more content. Uses a compression ratio to estimate summarized token counts.',
+    {
+      configProperties: [
+        {
+          name: 'compressionRatio',
+          type: 'number',
+          description: 'Expected compression ratio (0-1)',
+          default: '0.3',
+          optional: true,
+        },
+        {
+          name: 'maxSummaries',
+          type: 'number',
+          description: 'Maximum number of items to summarize',
+          default: '10',
+          optional: true,
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create the RAG Selection strategy
  */
 export function createRAGSelectionStrategy() {
-  return createStrategy('rag-selection', 'Relevance-scored RAG chunk selection strategy',
-    'Selects RAG chunks by relevance score, keeping highest-scoring chunks that fit within the allocated RAG budget.', {
-    configProperties: [
-      { name: 'ragBudgetRatio', type: 'number', description: 'Fraction of budget for RAG chunks', default: '0.3', optional: true },
-      { name: 'minRelevanceScore', type: 'number', description: 'Minimum relevance score threshold', default: '0.5', optional: true },
-      { name: 'maxChunks', type: 'number', description: 'Maximum number of RAG chunks', default: '20', optional: true },
-    ],
-  });
+  return createStrategy(
+    'rag-selection',
+    'Relevance-scored RAG chunk selection strategy',
+    'Selects RAG chunks by relevance score, keeping highest-scoring chunks that fit within the allocated RAG budget.',
+    {
+      configProperties: [
+        {
+          name: 'ragBudgetRatio',
+          type: 'number',
+          description: 'Fraction of budget for RAG chunks',
+          default: '0.3',
+          optional: true,
+        },
+        {
+          name: 'minRelevanceScore',
+          type: 'number',
+          description: 'Minimum relevance score threshold',
+          default: '0.5',
+          optional: true,
+        },
+        {
+          name: 'maxChunks',
+          type: 'number',
+          description: 'Maximum number of RAG chunks',
+          default: '20',
+          optional: true,
+        },
+      ],
+    },
+  );
 }
 
 /**

@@ -1,5 +1,5 @@
 /**
- * Type definitions for context-window-planner
+ * Type definitions for @reaatech/context-window-planner
  *
  * @module
  */

@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Tokenizer Adapters
- * 
+ *
  * This skill defines patterns and procedures for implementing tokenizer adapters
- * in the context-window-planner project.
+ * in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -15,14 +15,10 @@ export const skill = {
  * Template for a new tokenizer adapter
  */
 export function createTokenizerAdapter(name, model, options = {}) {
-  const {
-    description = '',
-    dependencies = [],
-    baseEstimate = 'charCount / 4',
-  } = options;
+  const { description = '', dependencies = [], baseEstimate = 'charCount / 4' } = options;
 
   const fileName = `packages/core/src/tokenizer/${name}.ts`;
-  
+
   return {
     type: 'file',
     name: fileName,
@@ -474,7 +470,7 @@ export { tokenizers, createTokenizer } from './factory.js';
  */
 export function generateTokenizerFiles() {
   const files = {};
-  
+
   const tiktoken = createTiktokenAdapter();
   const anthropic = createAnthropicAdapter();
   const mock = createMockAdapter();

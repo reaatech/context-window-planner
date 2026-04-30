@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Documentation Generation
- * 
+ *
  * This skill defines patterns and procedures for generating and updating
- * documentation in the context-window-planner project.
+ * documentation in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -18,18 +18,18 @@ export function createReadme() {
   return {
     type: 'file',
     name: 'packages/core/README.md',
-    content: `# context-window-planner
+    content: `# @reaatech/context-window-planner
 
 Optimize token allocation within LLM context windows. A TypeScript library that solves context window packing as a resource allocation problem.
 
 ## Installation
 
 \`\`\`bash
-npm install context-window-planner
+npm install @reaatech/context-window-planner
 # or
-pnpm add context-window-planner
+pnpm add @reaatech/context-window-planner
 # or
-yarn add context-window-planner
+yarn add @reaatech/context-window-planner
 \`\`\`
 
 ## Quick Start
@@ -43,7 +43,7 @@ import {
   Priority,
   strategies,
   tokenizers,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 // Create a planner with token budget
 const tokenizer = tokenizers.create('gpt-4');
@@ -170,7 +170,7 @@ export function createTypeDocConfig() {
     content: `{
   "entryPoints": ["packages/core/src/index.ts"],
   "out": "docs/api",
-  "name": "context-window-planner",
+  "name": "@reaatech/context-window-planner",
   "includeVersion": true,
   "readme": "README.md",
   "theme": "default",
@@ -197,7 +197,7 @@ export function createTypeDocConfig() {
   },
   "navigationLinks": {
     "GitHub": "https://github.com/reaatech/context-window-planner",
-    "npm": "https://www.npmjs.com/package/context-window-planner"
+    "npm": "https://www.npmjs.com/package/@reaatech/context-window-planner"
   }
 }
 `,
@@ -224,7 +224,7 @@ import {
   Priority,
   strategies,
   tokenizers,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 
@@ -265,7 +265,7 @@ import {
   SystemPrompt,
   strategies,
   tokenizers,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 
@@ -305,7 +305,7 @@ import {
   SystemPrompt,
   strategies,
   tokenizers,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const tokenizer = tokenizers.create('gpt-4');
 
@@ -340,7 +340,7 @@ export function createContributing() {
   return {
     type: 'file',
     name: 'CONTRIBUTING.md',
-    content: `# Contributing to context-window-planner
+    content: `# Contributing to @reaatech/context-window-planner
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to the project.
 

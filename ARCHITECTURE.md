@@ -1,8 +1,8 @@
-# Architecture: context-window-planner
+# Architecture: @reaatech/context-window-planner
 
 ## System Overview
 
-The `context-window-planner` library is designed as a modular, extensible system
+The `@reaatech/context-window-planner` library is designed as a modular, extensible system
 for optimizing token allocation within LLM context windows. The architecture
 follows clean code principles with clear separation of concerns, dependency
 injection, and strategy patterns.
@@ -829,8 +829,8 @@ function packContext(items, budget) {
   // Custom, inconsistent logic
 }
 
-// After: Using context-window-planner
-import { ContextPlanner, strategies, tokenizers } from 'context-window-planner';
+// After: Using @reaatech/context-window-planner
+import { ContextPlanner, strategies, tokenizers } from '@reaatech/context-window-planner';
 
 const planner = new ContextPlanner({
   budget: 128000,
@@ -846,7 +846,7 @@ const result = planner.pack();
 
 ## Conclusion
 
-The `context-window-planner` architecture provides:
+The `@reaatech/context-window-planner` architecture provides:
 
 1. **Modularity**: Each component has a single responsibility
 2. **Extensibility**: Easy to add new item types, strategies, and tokenizers

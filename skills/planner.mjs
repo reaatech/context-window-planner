@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Planning Engine
- * 
+ *
  * This skill defines patterns and procedures for implementing and modifying
- * the main planning engine in the context-window-planner project.
+ * the main planning engine in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -456,7 +456,7 @@ export function createErrorClasses() {
     content: `/**
  * Error Classes
  * 
- * Custom error types for the context-window-planner library.
+ * Custom error types for the @reaatech/context-window-planner library.
  * 
  * @module
  */

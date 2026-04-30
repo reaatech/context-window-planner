@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Testing with Vitest
- * 
+ *
  * This skill defines patterns and procedures for writing tests
- * in the context-window-planner project.
+ * in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -16,7 +16,7 @@ export const skill = {
  */
 export function createClassTest(className, modulePath, testCases) {
   const fileName = `packages/core/test/${className.toLowerCase()}.test.ts`;
-  
+
   return {
     type: 'file',
     name: fileName,
@@ -39,14 +39,18 @@ describe('${className}', () => {
     });
   });
 
-  ${testCases.map(tc => `/**
+  ${testCases
+    .map(
+      (tc) => `/**
    * ${tc.description}
    */
   it('${tc.description}', () => {
     ${tc.setup || ''}
     ${tc.assertion}
   });
-`).join('\n  ')}
+`,
+    )
+    .join('\n  ')}
 });
 `,
   };
@@ -484,7 +488,7 @@ export function createIntegrationTests() {
     type: 'file',
     name: 'packages/core/test/integration.test.ts',
     content: `/**
- * Integration tests for context-window-planner
+ * Integration tests for @reaatech/context-window-planner
  * 
  * @vitest
  */

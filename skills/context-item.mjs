@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Context Item Types
- * 
+ *
  * This skill defines patterns and procedures for implementing context item types
- * in the context-window-planner project.
+ * in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -22,8 +22,8 @@ export function createContextItem(name, description, properties, options = {}) {
   } = options;
 
   const fileName = `packages/core/src/items/${name}.ts`;
-  const hasTokenizeProp = properties.some(p => p.name === 'tokenCount');
-  
+  const hasTokenizeProp = properties.some((p) => p.name === 'tokenCount');
+
   return {
     type: 'file',
     name: fileName,
@@ -41,8 +41,12 @@ import type { TokenizerAdapter } from '../tokenizer/index.js';
  * Properties for creating a ${name}
  */
 export interface ${capitalize(name)}Properties {
-  ${properties.map(p => `/** ${p.description} */
-  ${p.name}${p.optional ? '?' : ''}: ${p.type};`).join('\n  ')}
+  ${properties
+    .map(
+      (p) => `/** ${p.description} */
+  ${p.name}${p.optional ? '?' : ''}: ${p.type};`,
+    )
+    .join('\n  ')}
   /** Optional identifier (auto-generated if omitted) */
   id?: string;
   /** Priority level for this item */
@@ -64,15 +68,19 @@ export class ${capitalize(name)} implements ContextItem {
   readonly priority: Priority;
   readonly tokenCount: number;
   readonly metadata?: Record<string, unknown>;
-  ${properties.map(p => `
+  ${properties
+    .map(
+      (p) => `
   /** ${p.description} */
-  readonly ${p.name}: ${p.type};`).join('')}
+  readonly ${p.name}: ${p.type};`,
+    )
+    .join('')}
 
   constructor(properties: ${capitalize(name)}Properties) {
     this.id = properties.id ?? generateId();
     this.priority = properties.priority ?? ${defaultPriority};
     this.metadata = properties.metadata;
-    ${properties.map(p => `this.${p.name} = properties.${p.name}${p.default ? ` ?? ${p.default}` : ''};`).join('\n    ')}
+    ${properties.map((p) => `this.${p.name} = properties.${p.name}${p.default ? ` ?? ${p.default}` : ''};`).join('\n    ')}
 
     if (properties.tokenCount === undefined) {
       throw new Error('tokenCount is required. Use the create${capitalize(name)} factory to compute it from a tokenizer.');
@@ -86,7 +94,9 @@ export class ${capitalize(name)} implements ContextItem {
   canSummarize(): boolean {
     return ${summarizable};
   }
-  ${summarizable ? `
+  ${
+    summarizable
+      ? `
 
   /**
    * Estimated token count after summarization.
@@ -107,15 +117,21 @@ export class ${capitalize(name)} implements ContextItem {
       id: generateId(),
       tokenCount: targetTokens ?? this.estimatedSummarizedTokenCount,
     });
-  }` : ''}
-  ${additionalMethods.map(m => `
+  }`
+      : ''
+  }
+  ${additionalMethods
+    .map(
+      (m) => `
 
   /**
    * ${m.description}
    */
   ${m.signature} {
     ${m.implementation}
-  }`).join('')}
+  }`,
+    )
+    .join('')}
 }
 
 /**
@@ -160,21 +176,21 @@ function capitalize(str: string): string {
  */
 function getContentForTokenization(properties) {
   const contentParts = [];
-  
+
   for (const prop of properties) {
     if (prop.tokenize !== false && prop.type === 'string') {
       contentParts.push(`properties.${prop.name}`);
     }
   }
-  
+
   if (contentParts.length === 0) {
     return "''";
   }
-  
+
   if (contentParts.length === 1) {
     return contentParts[0];
   }
-  
+
   return `[${contentParts.join(', ')}].join('\\n')`;
 }
 
@@ -182,97 +198,147 @@ function getContentForTokenization(properties) {
  * Create System Prompt item
  */
 export function createSystemPrompt() {
-  return createContextItem('system-prompt', 'System prompt for the LLM', [
-    { name: 'content', type: 'string', description: 'The system prompt content', default: "''" },
-    { name: 'role', type: 'string', description: 'Optional role description', optional: true },
-  ], {
-    defaultPriority: 'Priority.Critical',
-    summarizable: false,
-  });
+  return createContextItem(
+    'system-prompt',
+    'System prompt for the LLM',
+    [
+      { name: 'content', type: 'string', description: 'The system prompt content', default: "''" },
+      { name: 'role', type: 'string', description: 'Optional role description', optional: true },
+    ],
+    {
+      defaultPriority: 'Priority.Critical',
+      summarizable: false,
+    },
+  );
 }
 
 /**
  * Create System Prompt with token counting
  */
 export function createSystemPromptFactory() {
-  return createContextItem('system-prompt', 'System prompt for the LLM', [
-    { name: 'content', type: 'string', description: 'The system prompt content', default: "''" },
-    { name: 'role', type: 'string', description: 'Optional role description', optional: true },
-  ], {
-    defaultPriority: 'Priority.Critical',
-    summarizable: false,
-  });
+  return createContextItem(
+    'system-prompt',
+    'System prompt for the LLM',
+    [
+      { name: 'content', type: 'string', description: 'The system prompt content', default: "''" },
+      { name: 'role', type: 'string', description: 'Optional role description', optional: true },
+    ],
+    {
+      defaultPriority: 'Priority.Critical',
+      summarizable: false,
+    },
+  );
 }
 
 /**
  * Create Conversation Turn item
  */
 export function createConversationTurn() {
-  return createContextItem('conversation-turn', 'A single turn in a conversation', [
-    { name: 'role', type: 'string', description: 'The role of the speaker (user, assistant, system)', default: "''" },
-    { name: 'content', type: 'string', description: 'The message content', default: "''" },
-    { name: 'timestamp', type: 'number', description: 'Unix timestamp of the message', default: 'Date.now()' },
-  ], {
-    defaultPriority: 'Priority.High',
-    summarizable: true,
-    additionalMethods: [
+  return createContextItem(
+    'conversation-turn',
+    'A single turn in a conversation',
+    [
       {
-        description: 'Check if this is a user message',
-        signature: 'isUser(): boolean',
-        implementation: 'return this.role === \'user\';',
+        name: 'role',
+        type: 'string',
+        description: 'The role of the speaker (user, assistant, system)',
+        default: "''",
       },
+      { name: 'content', type: 'string', description: 'The message content', default: "''" },
       {
-        description: 'Check if this is an assistant message',
-        signature: 'isAssistant(): boolean',
-        implementation: 'return this.role === \'assistant\';',
-      },
-      {
-        description: 'Get the age of this message in milliseconds',
-        signature: 'getAge(): number',
-        implementation: 'return Date.now() - this.timestamp;',
+        name: 'timestamp',
+        type: 'number',
+        description: 'Unix timestamp of the message',
+        default: 'Date.now()',
       },
     ],
-  });
+    {
+      defaultPriority: 'Priority.High',
+      summarizable: true,
+      additionalMethods: [
+        {
+          description: 'Check if this is a user message',
+          signature: 'isUser(): boolean',
+          implementation: "return this.role === 'user';",
+        },
+        {
+          description: 'Check if this is an assistant message',
+          signature: 'isAssistant(): boolean',
+          implementation: "return this.role === 'assistant';",
+        },
+        {
+          description: 'Get the age of this message in milliseconds',
+          signature: 'getAge(): number',
+          implementation: 'return Date.now() - this.timestamp;',
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create RAG Chunk item
  */
 export function createRAGChunk() {
-  return createContextItem('rag-chunk', 'A chunk of retrieved context from RAG', [
-    { name: 'content', type: 'string', description: 'The chunk content', default: "''" },
-    { name: 'relevanceScore', type: 'number', description: 'Relevance score (0-1)', default: '0' },
-    { name: 'source', type: 'string', description: 'Source document identifier', optional: true },
-    { name: 'chunkIndex', type: 'number', description: 'Index of this chunk in the source', optional: true },
-  ], {
-    defaultPriority: 'Priority.Medium',
-    summarizable: true,
-    additionalMethods: [
+  return createContextItem(
+    'rag-chunk',
+    'A chunk of retrieved context from RAG',
+    [
+      { name: 'content', type: 'string', description: 'The chunk content', default: "''" },
       {
-        description: 'Check if this chunk meets minimum relevance threshold',
-        signature: 'meetsThreshold(minScore: number): boolean',
-        implementation: 'return this.relevanceScore >= minScore;',
+        name: 'relevanceScore',
+        type: 'number',
+        description: 'Relevance score (0-1)',
+        default: '0',
+      },
+      { name: 'source', type: 'string', description: 'Source document identifier', optional: true },
+      {
+        name: 'chunkIndex',
+        type: 'number',
+        description: 'Index of this chunk in the source',
+        optional: true,
       },
     ],
-  });
+    {
+      defaultPriority: 'Priority.Medium',
+      summarizable: true,
+      additionalMethods: [
+        {
+          description: 'Check if this chunk meets minimum relevance threshold',
+          signature: 'meetsThreshold(minScore: number): boolean',
+          implementation: 'return this.relevanceScore >= minScore;',
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create Tool Schema item
  */
 export function createToolSchema() {
-  return createContextItem('tool-schema', 'A function/tool schema for the LLM', [
-    { name: 'name', type: 'string', description: 'The tool name', default: "''" },
-    { name: 'description', type: 'string', description: 'Tool description', optional: true },
-    { name: 'schema', type: 'Record<string, unknown>', description: 'JSON Schema for the tool parameters', default: '{}' },
-  ], {
-    defaultPriority: 'Priority.High',
-    summarizable: false,
-    additionalMethods: [
+  return createContextItem(
+    'tool-schema',
+    'A function/tool schema for the LLM',
+    [
+      { name: 'name', type: 'string', description: 'The tool name', default: "''" },
+      { name: 'description', type: 'string', description: 'Tool description', optional: true },
       {
-        description: 'Get the tool definition in OpenAI format',
-        signature: 'toOpenAIFormat(): { type: string; function: { name: string; description?: string; parameters: Record<string, unknown> } }',
-        implementation: `return {
+        name: 'schema',
+        type: 'Record<string, unknown>',
+        description: 'JSON Schema for the tool parameters',
+        default: '{}',
+      },
+    ],
+    {
+      defaultPriority: 'Priority.High',
+      summarizable: false,
+      additionalMethods: [
+        {
+          description: 'Get the tool definition in OpenAI format',
+          signature:
+            'toOpenAIFormat(): { type: string; function: { name: string; description?: string; parameters: Record<string, unknown> } }',
+          implementation: `return {
       type: 'function',
       function: {
         name: this.name,
@@ -280,24 +346,45 @@ export function createToolSchema() {
         parameters: this.schema,
       },
     };`,
-      },
-    ],
-  });
+        },
+      ],
+    },
+  );
 }
 
 /**
  * Create Tool Result item
  */
 export function createToolResult() {
-  return createContextItem('tool-result', 'Result from executing a tool/function', [
-    { name: 'toolName', type: 'string', description: 'Name of the tool that was executed', default: "''" },
-    { name: 'result', type: 'string', description: 'The result content', default: "''" },
-    { name: 'success', type: 'boolean', description: 'Whether the tool execution succeeded', default: 'true' },
-    { name: 'error', type: 'string', description: 'Error message if execution failed', optional: true },
-  ], {
-    defaultPriority: 'Priority.Medium',
-    summarizable: true,
-  });
+  return createContextItem(
+    'tool-result',
+    'Result from executing a tool/function',
+    [
+      {
+        name: 'toolName',
+        type: 'string',
+        description: 'Name of the tool that was executed',
+        default: "''",
+      },
+      { name: 'result', type: 'string', description: 'The result content', default: "''" },
+      {
+        name: 'success',
+        type: 'boolean',
+        description: 'Whether the tool execution succeeded',
+        default: 'true',
+      },
+      {
+        name: 'error',
+        type: 'string',
+        description: 'Error message if execution failed',
+        optional: true,
+      },
+    ],
+    {
+      defaultPriority: 'Priority.Medium',
+      summarizable: true,
+    },
+  );
 }
 
 /**

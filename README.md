@@ -105,17 +105,17 @@ relevance-scored RAG chunk selection.
 
 ## Packages
 
-| Package | Description |
-| ------- | ----------- |
-| [`@reaatech/context-window-planner`](./packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives |
-| [`@reaatech/context-window-planner-cli`](./packages/cli) | CLI tool: read items from stdin, output a packing plan as JSON |
+
+| Package                                                  | Description                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [`@reaatech/context-window-planner`](./packages/core)    | Core library: planner, strategies, tokenizer adapters, item primitives |
+| [`@reaatech/context-window-planner-cli`](./packages/cli) | CLI tool: read items from stdin, output a packing plan as JSON         |
 
 ## Documentation
 
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — System design, component relationships, and extension points
 - [`AGENTS.md`](./AGENTS.md) — Coding conventions and development guidelines for AI agents
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md) — Contribution workflow and release process
-- [`GITHUB_TO_NPM.md`](./GITHUB_TO_NPM.md) — Publishing runbook for manual first publish to npm
 - [`packages/core/README.md`](./packages/core/README.md) — Full API reference with context items, strategies, tokenizers, and errors
 
 ## License

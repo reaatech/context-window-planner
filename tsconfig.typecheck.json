@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@reaatech/context-window-planner": ["./packages/core/src/index.ts"],
+      "@reaatech/context-window-planner-cli": ["./packages/cli/src/index.ts"]
+    }
+  }
+}

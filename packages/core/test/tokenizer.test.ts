@@ -4,7 +4,7 @@
  * @vitest
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { AnthropicTokenizerAdapter, createAnthropicTokenizer } from '../src/tokenizer/anthropic.js';
 import { createTokenizer, tokenizers } from '../src/tokenizer/factory.js';

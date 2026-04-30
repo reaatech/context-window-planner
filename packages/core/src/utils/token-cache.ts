@@ -17,7 +17,7 @@ export class TokenCache {
   #cache: Map<string, number>;
   #maxSize: number;
 
-  constructor(maxSize: number = 10000) {
+  constructor(maxSize = 10000) {
     this.#cache = new Map();
     this.#maxSize = maxSize;
   }

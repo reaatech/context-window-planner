@@ -15,7 +15,7 @@ import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
 export class MockTokenizerAdapter implements TokenizerAdapter {
   readonly model: string;
 
-  constructor(model: string = 'mock') {
+  constructor(model = 'mock') {
     this.model = model;
   }
 

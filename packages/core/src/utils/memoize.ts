@@ -17,7 +17,7 @@ import type { TokenBudget } from '../types/token-budget.js';
  * Caches the last result and invalidates when state changes.
  */
 export class PackingMemoizer {
-  private lastFingerprint: string = '';
+  private lastFingerprint = '';
   private lastResult: PackingResult | null = null;
 
   /**

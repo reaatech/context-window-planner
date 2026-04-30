@@ -4,7 +4,7 @@
  * @vitest
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { ValidationError } from '../src/errors.js';
 import type { ContextItem } from '../src/types/index.js';
@@ -122,7 +122,7 @@ describe('validateContextItem', () => {
       id: 'abc',
       type: 'custom',
       priority: Priority.Medium,
-      tokenCount: Infinity,
+      tokenCount: Number.POSITIVE_INFINITY,
       metadata: undefined,
       canSummarize: () => false,
     };

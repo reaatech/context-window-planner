@@ -4,7 +4,7 @@
  * @vitest
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { ContextPlannerBuilder } from '../src/builder.js';
 import { ValidationError } from '../src/errors.js';

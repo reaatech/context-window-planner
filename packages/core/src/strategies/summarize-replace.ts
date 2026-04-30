@@ -7,10 +7,10 @@
  * @module
  */
 
-import type { PackingContext, PackingStrategy } from './base.js';
 import type { ContextItem, PackWarning, PackingResult } from '../types/index.js';
 import type { Summarizable } from '../types/summarizable.js';
 import type { Summarizer } from '../types/summarizer.js';
+import type { PackingContext, PackingStrategy } from './base.js';
 
 /**
  * Configuration options for the summarize-replace strategy

@@ -51,7 +51,7 @@ export function validateBudget(budget: BudgetLike): void {
  * @param reserved - Reserved tokens
  * @returns A validated TokenBudget
  */
-export function createBudget(total: number, reserved: number = 0): TokenBudget {
+export function createBudget(total: number, reserved = 0): TokenBudget {
   validateBudget({ total, reserved });
   return new TokenBudget(total, reserved);
 }
@@ -113,7 +113,7 @@ export function truncateContent(
   }
   const ratio = targetTokens / originalTokens;
   const charLimit = Math.max(1, Math.floor(content.length * ratio) - 1);
-  return content.slice(0, charLimit) + '\u2026';
+  return `${content.slice(0, charLimit)}\u2026`;
 }
 
 /**

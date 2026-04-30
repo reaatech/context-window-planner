@@ -68,7 +68,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Audit dependencies
-        run: pnpm audit --audit-level moderate
+        run: pnpm audit --audit-level high
 
   # ─────────────────────────────────────────────
   # Code Format Check
@@ -131,6 +131,9 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: Re-link workspace packages
+        run: pnpm install --frozen-lockfile --prefer-offline
+
       - name: Lint
         run: pnpm lint
 
@@ -162,6 +165,9 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Re-link workspace packages
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Type check
         run: pnpm typecheck

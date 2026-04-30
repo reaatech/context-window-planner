@@ -8,8 +8,8 @@
  */
 
 import { StrategyError } from '../errors.js';
-import type { PackingContext, PackingStrategy } from './base.js';
 import type { ContextItem, PackWarning, PackingResult } from '../types/index.js';
+import type { PackingContext, PackingStrategy } from './base.js';
 
 /**
  * Configuration options for the sliding-window strategy

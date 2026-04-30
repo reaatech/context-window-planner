@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Type Definitions
- * 
+ *
  * This skill defines patterns and procedures for creating and modifying
- * TypeScript type definitions in the context-window-planner project.
+ * TypeScript type definitions in the @reaatech/context-window-planner project.
  */
 
 export const skill = {
@@ -56,7 +56,12 @@ export function createInterface(name, properties, options = {}) {
     content: `${description ? `/**\n * ${description}\n */\n` : ''}${deprecated ? '@deprecated\n' : ''}${exportKeyword} interface ${name}${extendsClause} {
 ${Object.entries(properties)
   .map(([key, value]) => {
-    const { type, description: propDesc, readonly = false, optional = false } = typeof value === 'string' ? { type: value } : value;
+    const {
+      type,
+      description: propDesc,
+      readonly = false,
+      optional = false,
+    } = typeof value === 'string' ? { type: value } : value;
     const readonlyStr = readonly ? 'readonly ' : '';
     const optionalStr = optional ? '?' : '';
     return `${propDesc ? `  /** ${propDesc} */\n` : ''}  ${readonlyStr}${key}${optionalStr}: ${type};`;
@@ -71,11 +76,7 @@ ${Object.entries(properties)
  * Create a new type alias
  */
 export function createTypeAlias(name, definition, options = {}) {
-  const {
-    description = '',
-    deprecated = false,
-    exportType = 'named',
-  } = options;
+  const { description = '', deprecated = false, exportType = 'named' } = options;
 
   const exportKeyword = exportType === 'default' ? 'export default' : 'export';
 
@@ -91,10 +92,7 @@ export function createTypeAlias(name, definition, options = {}) {
  * Create a discriminated union type
  */
 export function createDiscriminatedUnion(typeField, variants, options = {}) {
-  const {
-    description = '',
-    exportType = 'named',
-  } = options;
+  const { description = '', exportType = 'named' } = options;
 
   const exportKeyword = exportType === 'default' ? 'export default' : 'export';
 
@@ -102,7 +100,11 @@ export function createDiscriminatedUnion(typeField, variants, options = {}) {
     const { name, properties } = variant;
     const props = Object.entries(properties)
       .map(([key, value]) => {
-        const { type, readonly = false, optional = false } = typeof value === 'string' ? { type: value } : value;
+        const {
+          type,
+          readonly = false,
+          optional = false,
+        } = typeof value === 'string' ? { type: value } : value;
         const readonlyStr = readonly ? 'readonly ' : '';
         const optionalStr = optional ? '?' : '';
         return `${readonlyStr}${key}${optionalStr}: ${type};`;
@@ -125,96 +127,173 @@ ${unionTypes.join(' |\n  ')};
 }
 
 /**
- * Core types for context-window-planner
+ * Core types for @reaatech/context-window-planner
  */
 export const coreTypes = {
   /**
    * Priority levels for context items
    */
-  priority: createEnum('Priority', {
-    Critical: 100,
-    High: 75,
-    Medium: 50,
-    Low: 25,
-    Disposable: 0,
-  }, {
-    description: 'Priority levels for context window packing decisions. Higher values indicate higher priority.',
-  }),
+  priority: createEnum(
+    'Priority',
+    {
+      Critical: 100,
+      High: 75,
+      Medium: 50,
+      Low: 25,
+      Disposable: 0,
+    },
+    {
+      description:
+        'Priority levels for context window packing decisions. Higher values indicate higher priority.',
+    },
+  ),
 
   /**
    * Context item types
    */
-  contextItemType: createTypeAlias('ContextItemType', [
-    "'system_prompt'",
-    "'conversation_turn'",
-    "'rag_chunk'",
-    "'tool_schema'",
-    "'tool_result'",
-    "'generation_buffer'",
-    "'custom'",
-  ].join(' | '), {
-    description: 'Types of context items that can be included in the context window.',
-  }),
+  contextItemType: createTypeAlias(
+    'ContextItemType',
+    [
+      "'system_prompt'",
+      "'conversation_turn'",
+      "'rag_chunk'",
+      "'tool_schema'",
+      "'tool_result'",
+      "'generation_buffer'",
+      "'custom'",
+    ].join(' | '),
+    {
+      description: 'Types of context items that can be included in the context window.',
+    },
+  ),
 
   /**
    * Packing warning interface
    */
-  packWarning: createInterface('PackWarning', {
-    code: { type: 'string', description: 'Warning code', readonly: true },
-    message: { type: 'string', description: 'Human-readable warning message' },
-    item: { type: 'ContextItem', description: 'Related context item', optional: true },
-    suggestion: { type: 'string', description: 'Suggested resolution', optional: true },
-  }, {
-    description: 'A warning generated during the packing process.',
-  }),
+  packWarning: createInterface(
+    'PackWarning',
+    {
+      code: { type: 'string', description: 'Warning code', readonly: true },
+      message: { type: 'string', description: 'Human-readable warning message' },
+      item: { type: 'ContextItem', description: 'Related context item', optional: true },
+      suggestion: { type: 'string', description: 'Suggested resolution', optional: true },
+    },
+    {
+      description: 'A warning generated during the packing process.',
+    },
+  ),
 
   /**
    * Base context item interface
    */
-  contextItem: createInterface('ContextItem', {
-    id: { type: 'string', description: 'Unique identifier for this item', readonly: true },
-    type: { type: 'ContextItemType', description: 'The type of context item', readonly: true },
-    priority: { type: 'Priority', description: 'Priority level for inclusion decisions', readonly: true },
-    tokenCount: { type: 'number', description: 'Number of tokens this item consumes', readonly: true },
-    metadata: { type: 'Record<string, unknown>', description: 'Optional metadata for debugging', optional: true, readonly: true },
-  }, {
-    description: 'Base interface for all content types that can be included in the context window.',
-    extends: [],
-  }),
+  contextItem: createInterface(
+    'ContextItem',
+    {
+      id: { type: 'string', description: 'Unique identifier for this item', readonly: true },
+      type: { type: 'ContextItemType', description: 'The type of context item', readonly: true },
+      priority: {
+        type: 'Priority',
+        description: 'Priority level for inclusion decisions',
+        readonly: true,
+      },
+      tokenCount: {
+        type: 'number',
+        description: 'Number of tokens this item consumes',
+        readonly: true,
+      },
+      metadata: {
+        type: 'Record<string, unknown>',
+        description: 'Optional metadata for debugging',
+        optional: true,
+        readonly: true,
+      },
+    },
+    {
+      description:
+        'Base interface for all content types that can be included in the context window.',
+      extends: [],
+    },
+  ),
 
   /**
    * Summarizable sub-interface for items that support summarization.
    */
-  summarizable: createInterface('Summarizable', {
-    estimatedSummarizedTokenCount: { type: 'number', description: 'Estimated token count after summarization', readonly: true },
-  }, {
-    description: 'Extended interface for items that support summarization. Strategies query this to decide whether summarizing is worthwhile.',
-    extends: ['ContextItem'],
-  }),
+  summarizable: createInterface(
+    'Summarizable',
+    {
+      estimatedSummarizedTokenCount: {
+        type: 'number',
+        description: 'Estimated token count after summarization',
+        readonly: true,
+      },
+    },
+    {
+      description:
+        'Extended interface for items that support summarization. Strategies query this to decide whether summarizing is worthwhile.',
+      extends: ['ContextItem'],
+    },
+  ),
 
   /**
    * Token budget interface
    */
-  tokenBudget: createInterface('TokenBudget', {
-    total: { type: 'number', description: 'Total available tokens', readonly: true },
-    reserved: { type: 'number', description: 'Reserved tokens for generation buffer', readonly: true },
-  }, {
-    description: 'Manages the total token allocation and tracks usage.',
-  }),
+  tokenBudget: createInterface(
+    'TokenBudget',
+    {
+      total: { type: 'number', description: 'Total available tokens', readonly: true },
+      reserved: {
+        type: 'number',
+        description: 'Reserved tokens for generation buffer',
+        readonly: true,
+      },
+    },
+    {
+      description: 'Manages the total token allocation and tracks usage.',
+    },
+  ),
 
   /**
    * Packing result interface
    */
-  packingResult: createInterface('PackingResult', {
-    included: { type: 'ReadonlyArray<ContextItem>', description: 'Items included as-is', readonly: true },
-    summarize: { type: 'ReadonlyArray<ContextItem>', description: 'Items to be summarized before inclusion', readonly: true },
-    dropped: { type: 'ReadonlyArray<ContextItem>', description: 'Items dropped due to space constraints', readonly: true },
-    usedTokens: { type: 'number', description: 'Total tokens used by included items', readonly: true },
-    remainingTokens: { type: 'number', description: 'Remaining available tokens', readonly: true },
-    warnings: { type: 'ReadonlyArray<PackWarning>', description: 'Warnings or optimization suggestions', readonly: true },
-  }, {
-    description: 'Result of a packing operation, containing decisions about what to include, summarize, or drop.',
-  }),
+  packingResult: createInterface(
+    'PackingResult',
+    {
+      included: {
+        type: 'ReadonlyArray<ContextItem>',
+        description: 'Items included as-is',
+        readonly: true,
+      },
+      summarize: {
+        type: 'ReadonlyArray<ContextItem>',
+        description: 'Items to be summarized before inclusion',
+        readonly: true,
+      },
+      dropped: {
+        type: 'ReadonlyArray<ContextItem>',
+        description: 'Items dropped due to space constraints',
+        readonly: true,
+      },
+      usedTokens: {
+        type: 'number',
+        description: 'Total tokens used by included items',
+        readonly: true,
+      },
+      remainingTokens: {
+        type: 'number',
+        description: 'Remaining available tokens',
+        readonly: true,
+      },
+      warnings: {
+        type: 'ReadonlyArray<PackWarning>',
+        description: 'Warnings or optimization suggestions',
+        readonly: true,
+      },
+    },
+    {
+      description:
+        'Result of a packing operation, containing decisions about what to include, summarize, or drop.',
+    },
+  ),
 };
 
 /**
@@ -222,7 +301,7 @@ export const coreTypes = {
  */
 export function generateCoreTypes() {
   const files = {};
-  
+
   for (const [name, typeDef] of Object.entries(coreTypes)) {
     const fileName = `packages/core/src/types/${name}.ts`;
     files[fileName] = `/**
@@ -237,7 +316,7 @@ ${typeDef.content}
 
   // Generate index file
   files['packages/core/src/types/index.ts'] = `/**
- * Type definitions for context-window-planner
+ * Type definitions for @reaatech/context-window-planner
  * 
  * @module
  */

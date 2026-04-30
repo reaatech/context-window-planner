@@ -1,30 +1,22 @@
 {
-  "name": "context-window-planner",
+  "name": "@reaatech/context-window-planner",
   "version": "0.1.0",
   "description": "Optimize token allocation within LLM context windows",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "license": "MIT",
   "author": "Rick Somers <rick@reaatech.com> (https://reaatech.com)",
-  "homepage": "https://github.com/reaatech/context-window-planner#readme",
+  "homepage": "https://github.com/reaatech/context-window-planner/tree/main/packages/core#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/reaatech/context-window-planner.git",
@@ -49,10 +41,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" --fix",
     "typecheck": "tsc --noEmit",
-    "docs": "typedoc --out docs src/index.ts",
     "prepublishOnly": "pnpm run build",
     "clean": "rm -rf dist"
   },
@@ -61,15 +50,16 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@vitest/coverage-v8": "^1.2.0",
-    "eslint": "^9.39.4",
+    "@vitest/coverage-v8": "3.2.4",
     "tsup": "^8.0.1",
-    "typedoc": "^0.28.19",
-    "typescript": "^5.3.3",
-    "vitest": "^1.2.0"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "sideEffects": false
 }

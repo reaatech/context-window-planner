@@ -1,13 +1,13 @@
 /**
- * CLI tool for context-window-planner.
+ * CLI tool for @reaatech/context-window-planner.
  *
  * Reads context items from JSON on stdin and produces a packing plan.
  *
  * @module
  */
 
-import { ContextPlanner, strategies, tokenizers } from 'context-window-planner';
-import type { ContextItemType } from 'context-window-planner';
+import { ContextPlanner, strategies, tokenizers } from '@reaatech/context-window-planner';
+import type { ContextItemType } from '@reaatech/context-window-planner';
 
 interface CliInput {
   budget: number;
@@ -72,7 +72,7 @@ async function main(): Promise<void> {
     const plan = planner.plan();
 
     process.stdout.write(
-      JSON.stringify(
+      `${JSON.stringify(
         {
           packing: {
             included: result.included.length,
@@ -89,7 +89,7 @@ async function main(): Promise<void> {
         },
         null,
         2,
-      ) + '\n',
+      )}\n`,
     );
     process.exit(0);
   } catch (err) {

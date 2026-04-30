@@ -4,7 +4,7 @@
  * @vitest
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { BudgetExceededError } from '../src/errors.js';
 import { createConversationTurn } from '../src/items/conversation-turn.js';
@@ -187,8 +187,8 @@ describe('ContextPlanner', () => {
       const summary = planner.getSummary();
 
       expect(summary.totalItems).toBe(2);
-      expect(summary.byType['system_prompt']).toHaveLength(1);
-      expect(summary.byType['conversation_turn']).toHaveLength(1);
+      expect(summary.byType.system_prompt).toHaveLength(1);
+      expect(summary.byType.conversation_turn).toHaveLength(1);
     });
   });
 

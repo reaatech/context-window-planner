@@ -1,7 +1,7 @@
 /**
  * Error Classes
  *
- * Custom error types for the context-window-planner library.
+ * Custom error types for the @reaatech/context-window-planner library.
  *
  * @module
  */

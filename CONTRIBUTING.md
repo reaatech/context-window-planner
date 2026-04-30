@@ -1,6 +1,6 @@
-# Contributing to context-window-planner
+# Contributing to @reaatech/context-window-planner
 
-Thank you for your interest in contributing to the context-window-planner
+Thank you for your interest in contributing to the @reaatech/context-window-planner
 project! This document provides guidelines and instructions for contributing.
 
 ## Getting Started
@@ -40,7 +40,7 @@ project! This document provides guidelines and instructions for contributing.
 ### Project Structure
 
 ```
-context-window-planner/
+context-window-planner-monorepo/
 ├── packages/
 │   └── core/              # Main library package
 │       ├── src/
@@ -87,7 +87,7 @@ directories.
 pnpm test
 
 # Run tests for a specific package
-pnpm --filter context-window-planner test
+pnpm --filter @reaatech/context-window-planner test
 
 # Run with coverage
 pnpm test:coverage
@@ -259,4 +259,4 @@ If you have questions about contributing, please:
 2. Search existing issues and discussions
 3. Open a new discussion in GitHub Discussions
 
-Thank you for contributing to context-window-planner!
+Thank you for contributing to @reaatech/context-window-planner!

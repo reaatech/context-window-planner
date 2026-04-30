@@ -6,10 +6,10 @@
  * @module
  */
 
-import { encodingForModel, type TiktokenModel } from 'js-tiktoken';
+import { type TiktokenModel, encodingForModel } from 'js-tiktoken';
 
-import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
 import { TokenCache } from '../utils/token-cache.js';
+import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
 
 /**
  * Configuration options for the Tiktoken tokenizer

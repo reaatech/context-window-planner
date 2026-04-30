@@ -1,74 +1,69 @@
 # context-window-planner
 
-<p align="center">
-  <a href="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml">
-    <img src="https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml/badge.svg" alt="CI">
-  </a>
-  <a href="https://www.npmjs.com/package/context-window-planner">
-    <img src="https://img.shields.io/npm/v/context-window-planner" alt="npm version">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/npm/l/context-window-planner" alt="license">
-  </a>
-  <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/TypeScript-5.3-blue" alt="TypeScript">
-  </a>
-  <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/node/v/context-window-planner" alt="node">
-  </a>
-</p>
+[![CI](https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/reaatech/context-window-planner/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
 
-> Optimize token allocation within LLM context windows. A small,
-> dependency-light TypeScript library that decides **what to include, what to
-> summarize, and what to drop** when packing prompts for Claude, GPT, and other
-> LLMs.
+> Optimize token allocation within LLM context windows. A small, dependency-light
+> TypeScript library that decides **what to include, what to summarize, and what to
+> drop** when packing prompts for Claude, GPT, and other LLMs.
 
-## Why?
-
-Building LLM applications means wrestling with context window limits. You have
-system prompts, conversation history, RAG chunks, tool definitions, and tool
-results — all competing for a fixed token budget. Existing solutions are:
-
-- **Ad-hoc** — inline logic duplicated across every project
-- **Inconsistent** — different rules for different item types, no unified
-  priority
-- **Hard to test** — edge cases (over-full budget, summarization fallback)
-  missed
-
-**context-window-planner** treats context packing as a resource allocation
-problem. Give it a token budget, a set of prioritized items, and a strategy — it
-returns a deterministic packing decision with machine-readable warnings.
+This monorepo provides a deterministic packing engine, pluggable strategies, tokenizer
+adapters for multiple model families, and typed context item primitives — all with
+machine-readable warnings and ≥90% test coverage.
 
 ## Features
 
-- **Pluggable tokenizer adapters** — OpenAI tiktoken, Anthropic estimate, mock
-  for testing; create your own via the `TokenizerAdapter` interface
+- **Pluggable tokenizer adapters** — OpenAI (tiktoken), Anthropic (approximate), and
+  mock for testing; create your own via the `TokenizerAdapter` interface
 - **Pluggable packing strategies** — priority-greedy, sliding-window,
-  summarize-and-replace, RAG relevance selection; compose or write custom
-  strategies
-- **Typed context item primitives** — `SystemPrompt`, `ConversationTurn`,
-  `RAGChunk`, `ToolSchema`, `ToolResult`, `GenerationBuffer`
-- **Budget enforcement** — total budget, reserved tokens, and configurable
-  safety margin applied once at the planner level
-- **Structured warnings** — every decision (drop, summarize, low-remaining)
-  emits a `PackWarning` you can log, alert on, or surface in a UI
-- **Deterministic & framework-agnostic** — zero runtime dependencies beyond
-  `js-tiktoken`
-- **≥90% test coverage** with property-based tests for strategy correctness
+  summarize-and-replace, and RAG relevance selection; compose or write custom strategies
+- **Typed context item primitives** — `SystemPrompt`, `ConversationTurn`, `RAGChunk`,
+  `ToolSchema`, `ToolResult`, `GenerationBuffer` with factory functions
+- **Budget enforcement** — total budget, reserved tokens, and configurable safety
+  margin applied once at the planner level
+- **Structured warnings** — every decision (drop, summarize, low-remaining) emits a
+  `PackWarning` you can log, alert on, or surface in a UI
+- **Deterministic and framework-agnostic** — zero runtime dependencies beyond
+  `js-tiktoken`; ≥90% test coverage with property-based tests
 
 ## Installation
 
+### Using the packages
+
+Packages are published under the `@reaatech` scope and can be installed individually:
+
 ```bash
-npm install context-window-planner
-# or
-pnpm add context-window-planner
+# Core library
+pnpm add @reaatech/context-window-planner
+
+# CLI tool
+pnpm add -g @reaatech/context-window-planner-cli
 ```
 
-Requires Node.js ≥ 18.
+### Contributing
 
-## Quick start
+```bash
+# Clone the repository
+git clone https://github.com/reaatech/context-window-planner.git
+cd context-window-planner
 
-```ts
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run the test suite
+pnpm test
+
+# Run linting
+pnpm lint
+```
+
+## Quick Start
+
+```typescript
 import {
   ContextPlannerBuilder,
   createTokenizer,
@@ -76,9 +71,9 @@ import {
   createSystemPrompt,
   createConversationTurn,
   createGenerationBuffer,
-} from 'context-window-planner';
+} from "@reaatech/context-window-planner";
 
-const tokenizer = createTokenizer('gpt-4');
+const tokenizer = createTokenizer("gpt-4");
 
 const planner = new ContextPlannerBuilder()
   .withBudget(128000)
@@ -88,8 +83,8 @@ const planner = new ContextPlannerBuilder()
   .build();
 
 planner.addAll([
-  createSystemPrompt({ content: 'You are a helpful assistant.' }, tokenizer),
-  createConversationTurn({ role: 'user', content: 'Hello!' }, tokenizer),
+  createSystemPrompt({ content: "You are a helpful assistant." }, tokenizer),
+  createConversationTurn({ role: "user", content: "Hello!" }, tokenizer),
   createGenerationBuffer({ reservedTokens: 2048 }),
 ]);
 
@@ -98,157 +93,31 @@ const result = planner.pack();
 console.log(`${result.included.length} items included`);
 console.log(`${result.summarize.length} items to summarize`);
 console.log(`${result.dropped.length} items dropped`);
-console.log(
-  `${result.usedTokens} / ${result.remainingTokens + result.usedTokens} tokens used`,
-);
 
 for (const warning of result.warnings) {
   console.warn(`[${warning.code}]`, warning.message);
 }
 ```
 
-## Architecture
-
-```
- ┌─────────────────────────────────────────┐
- │            ContextPlanner                │
- │  Manages budget, items, strategy         │
- └──────────────┬──────────────────────────┘
-                │
-     ┌──────────┼──────────┐
-     ▼          ▼          ▼
- ┌────────┐ ┌────────┐ ┌────────┐
- │Budget  │ │Strategy│ │Item    │
- │Manager │ │Engine  │ │Registry│
- └────────┘ └────────┘ └────────┘
-      │           │           │
-      ▼           ▼           ▼
-  TokenBudget  Packing     ContextItem
-               Result      implementations
-```
-
-| Layer             | Responsibility                                                          |
-| ----------------- | ----------------------------------------------------------------------- |
-| **Token Budget**  | total → reserved → available; safety margin applied once                |
-| **Context Items** | Typed primitives with priority, token count, and optional `summarize()` |
-| **Tokenizer**     | Adapter per model family; caches counts by content hash                 |
-| **Strategy**      | Algorithm that produces `PackingResult` from budget + items             |
-| **Planner**       | Orchestrator; holds budget, items, and strategy; exposes `pack()`       |
-
-## Core concepts
-
-### Token budget
-
-```
-total:     total tokens available in the model's window
-reserved:  tokens you don't want packed with content
-available: total − reserved − (total × safetyMargin)
-```
-
-`safetyMargin` defaults to 5% and is applied once inside the planner. Strategies
-work against `budget.available` directly.
-
-### Context items
-
-Each item implements `ContextItem`:
-
-```ts
-interface ContextItem {
-  readonly id: string;
-  readonly type: ContextItemType;
-  readonly priority: Priority; // Critical | High | Medium | Low | Disposable
-  readonly tokenCount: number;
-  readonly metadata?: Record<string, unknown>;
-  canSummarize(): boolean;
-  summarize?(): ContextItem;
-}
-```
-
-| Type               | Default priority | Can summarize |
-| ------------------ | ---------------- | ------------- |
-| `SystemPrompt`     | Critical         | No            |
-| `ConversationTurn` | High             | Yes           |
-| `ToolSchema`       | High             | No            |
-| `ToolResult`       | Medium           | Yes           |
-| `RAGChunk`         | Medium           | Yes           |
-| `GenerationBuffer` | Critical         | No            |
-
-Each type has a `createX(props, tokenizer)` factory that computes `tokenCount`.
-Custom items are created by implementing the interface.
-
-### Packing strategies
-
-| Strategy           | Behavior                                                               |
-| ------------------ | ---------------------------------------------------------------------- |
-| `PriorityGreedy`   | Fill highest-priority items first, then fall through to lower ones     |
-| `SlidingWindow`    | Keep N most recent conversation turns; older turns become summarizable |
-| `SummarizeReplace` | Actively summarize items that don't fit, up to `maxSummaries`          |
-| `RAGSelection`     | Allocate a budget fraction to RAG chunks sorted by relevance score     |
-
-Create via factory functions (`createPriorityGreedyStrategy()`) or implement
-`PackingStrategy` directly for custom logic.
-
-### Packing result
-
-```ts
-interface PackingResult {
-  readonly included: ReadonlyArray<ContextItem>; // items packed as-is
-  readonly summarize: ReadonlyArray<ContextItem>; // items to summarize first
-  readonly dropped: ReadonlyArray<ContextItem>; // items that didn't fit
-  readonly usedTokens: number;
-  readonly remainingTokens: number;
-  readonly warnings: ReadonlyArray<PackWarning>; // machine-readable alerts
-}
-```
+See the [`examples/`](./examples/) directory for complete working samples, including
+sliding-window conversation management, custom strategy implementation, and
+relevance-scored RAG chunk selection.
 
 ## Packages
 
-This repository is a pnpm monorepo.
+| Package | Description |
+| ------- | ----------- |
+| [`@reaatech/context-window-planner`](./packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives |
+| [`@reaatech/context-window-planner-cli`](./packages/cli) | CLI tool: read items from stdin, output a packing plan as JSON |
 
-| Package                                   | Description                                                             |
-| ----------------------------------------- | ----------------------------------------------------------------------- |
-| [`context-window-planner`](packages/core) | Core library: planner, strategies, tokenizer adapters, item primitives. |
+## Documentation
 
-## API reference
-
-See [`packages/core/README.md`](packages/core/README.md) for the full API,
-including:
-
-- Error hierarchy (`ContextPlannerError` with stable error codes)
-- Custom strategy and tokenizer examples
-- All factory functions and builder options
-
-## Examples
-
-Runnable examples under [`examples/`](examples):
-
-| Example                                                       | Demonstrates                            |
-| ------------------------------------------------------------- | --------------------------------------- |
-| [`basic-packing`](examples/basic-packing)                     | Minimal end-to-end planner usage        |
-| [`conversation-management`](examples/conversation-management) | Sliding-window over chat history        |
-| [`custom-strategy`](examples/custom-strategy)                 | Implementing a custom `PackingStrategy` |
-| [`with-rag`](examples/with-rag)                               | Relevance-scored RAG chunk selection    |
-
-Each example includes its own README with run instructions.
-
-## Development
-
-```bash
-pnpm install      # install dependencies
-pnpm build        # build all packages
-pnpm test         # run tests (vitest)
-pnpm typecheck    # run TypeScript type checking
-pnpm lint         # run ESLint
-```
-
-Requires Node.js ≥ 18 and pnpm ≥ 8.
-
-## Contributing
-
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full
-workflow, and [ARCHITECTURE.md](ARCHITECTURE.md) for design decisions. AI agents
-working on this repository should also read [AGENTS.md](AGENTS.md).
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — System design, component relationships, and extension points
+- [`AGENTS.md`](./AGENTS.md) — Coding conventions and development guidelines for AI agents
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md) — Contribution workflow and release process
+- [`GITHUB_TO_NPM.md`](./GITHUB_TO_NPM.md) — Publishing runbook for manual first publish to npm
+- [`packages/core/README.md`](./packages/core/README.md) — Full API reference with context items, strategies, tokenizers, and errors
 
 ## License
 
-MIT © reaatech and contributors. See [LICENSE](LICENSE).
+[MIT](LICENSE)

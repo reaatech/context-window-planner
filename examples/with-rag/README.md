@@ -8,6 +8,6 @@ highest-scoring ones that fit are included.
 
 ```bash
 pnpm install
-pnpm --filter context-window-planner build
+pnpm --filter @reaatech/context-window-planner build
 pnpm --filter @example/with-rag start
 ```

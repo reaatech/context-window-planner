@@ -1,22 +1,22 @@
 /**
- * Performance benchmarks for context-window-planner.
+ * Performance benchmarks for @reaatech/context-window-planner.
  *
  * Run with: pnpm vitest bench --config vitest.config.ts
  *
  * @module
  */
 
-import { bench, describe } from 'vitest';
 import {
   ContextPlanner,
-  strategies,
-  tokenizers,
-  SystemPrompt,
   ConversationTurn,
-  RAGChunk,
   GenerationBuffer,
   Priority,
-} from 'context-window-planner';
+  RAGChunk,
+  SystemPrompt,
+  strategies,
+  tokenizers,
+} from '@reaatech/context-window-planner';
+import { bench, describe } from 'vitest';
 
 function createFakeTokenizer() {
   return tokenizers.create('mock');

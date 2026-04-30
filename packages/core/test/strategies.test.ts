@@ -5,7 +5,7 @@
  */
 
 import { fc } from '@fast-check/vitest';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { createConversationTurn } from '../src/items/conversation-turn.js';
 import { GenerationBuffer } from '../src/items/generation-buffer.js';
@@ -14,10 +14,10 @@ import { createSystemPrompt } from '../src/items/system-prompt.js';
 import { ContextPlanner } from '../src/planner.js';
 import {
   createPriorityGreedyStrategy,
-  createSlidingWindowStrategy,
-  createSummarizeAndReplaceStrategy,
   createRAGSelectionStrategy,
+  createSlidingWindowStrategy,
   createStrategy,
+  createSummarizeAndReplaceStrategy,
 } from '../src/strategies/index.js';
 import { createMockTokenizer } from '../src/tokenizer/mock.js';
 import type { ContextItem } from '../src/types/index.js';

@@ -9,14 +9,14 @@
 
 import {
   ContextPlanner,
+  type PackingContext,
+  type PackingResult,
+  type PackingStrategy,
   createConversationTurn,
   createMockTokenizer,
   createSystemPrompt,
   createToolSchema,
-  type PackingContext,
-  type PackingResult,
-  type PackingStrategy,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const TYPE_WEIGHTS: Record<string, number> = {
   system_prompt: 1000,

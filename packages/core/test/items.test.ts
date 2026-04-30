@@ -4,7 +4,7 @@
  * @vitest
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { createConversationTurn } from '../src/items/conversation-turn.js';
 import { GenerationBuffer, createGenerationBuffer } from '../src/items/generation-buffer.js';

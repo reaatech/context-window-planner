@@ -10,8 +10,8 @@ import { BudgetExceededError, ValidationError } from './errors.js';
 import type { PackingContext, PackingStrategy } from './strategies/index.js';
 import type { TokenizerAdapter } from './tokenizer/index.js';
 import type {
-  ContextItemType,
   ContextItem,
+  ContextItemType,
   PackingResult,
   PackingSummary,
   TokenBudget,
@@ -67,7 +67,7 @@ export class ContextPlanner {
   private readonly strategy: PackingStrategy;
   private items: ReadonlyArray<ContextItem> = [];
   #memoizer: PackingMemoizer;
-  #dirty: boolean = true;
+  #dirty = true;
 
   constructor(options: ContextPlannerOptions) {
     const safetyMargin = options.safetyMargin ?? 0.05;

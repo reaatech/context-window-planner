@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Release and Publishing Workflows
- * 
+ *
  * This skill defines patterns and procedures for releasing and publishing
- * the context-window-planner library.
+ * the @reaatech/context-window-planner library.
  */
 
 export const skill = {
@@ -76,7 +76,7 @@ jobs:
             ## Installation
 
             \`\`\`bash
-            npm install context-window-planner@\${{ github.ref_name }}
+            npm install @reaatech/context-window-planner@\${{ github.ref_name }}
             \`\`\`
           draft: false
           prerelease: \${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}
@@ -103,7 +103,7 @@ export function createVersionScript() {
     content: `#!/usr/bin/env node
 
 /**
- * Version bump script for context-window-planner.
+ * Version bump script for @reaatech/context-window-planner.
  * 
  * Usage:
  *   node scripts/version.js major|minor|patch|prerelease
@@ -285,7 +285,7 @@ Use this checklist before publishing a new version.
 
 - [ ] Verify npm package published
 - [ ] Verify GitHub release created
-- [ ] Test installation: \`npm install context-window-planner@latest\`
+- [ ] Test installation: \`npm install @reaatech/context-window-planner@latest\`
 - [ ] Announce release (if significant)
 
 ## Version Guidelines
@@ -307,7 +307,7 @@ export function createNpmConfig() {
   return {
     type: 'file',
     name: '.npmrc',
-    content: `# NPM Configuration for context-window-planner
+    content: `# NPM Configuration for @reaatech/context-window-planner
 
 # Use provenance for security
 provenance=true

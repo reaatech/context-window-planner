@@ -7,6 +7,6 @@ Shows how to implement your own `PackingStrategy`. This one weighs item types
 
 ```bash
 pnpm install
-pnpm --filter context-window-planner build
+pnpm --filter @reaatech/context-window-planner build
 pnpm --filter @example/custom-strategy start
 ```

@@ -7,8 +7,8 @@
  * @module
  */
 
-import type { PackingContext, PackingStrategy } from './base.js';
 import type { ContextItem, PackWarning, PackingResult } from '../types/index.js';
+import type { PackingContext, PackingStrategy } from './base.js';
 
 /**
  * Configuration options for the rag-selection strategy

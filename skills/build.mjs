@@ -1,8 +1,8 @@
 /**
  * Agent Skill: Building and Packaging
- * 
+ *
  * This skill defines patterns and procedures for building and packaging
- * the context-window-planner library.
+ * the @reaatech/context-window-planner library.
  */
 
 export const skill = {
@@ -19,7 +19,7 @@ export function createTsupConfig() {
     type: 'file',
     name: 'packages/core/tsup.config.ts',
     content: `/**
- * tsup configuration for context-window-planner core package.
+ * tsup configuration for @reaatech/context-window-planner core package.
  * 
  * @see https://tsup.egoist.dev/
  */
@@ -80,7 +80,7 @@ export function createPackageScripts() {
     type: 'file',
     name: 'packages/core/package.json',
     content: `{
-  "name": "context-window-planner",
+  "name": "@reaatech/context-window-planner",
   "version": "0.1.0",
   "description": "Optimize token allocation within LLM context windows",
   "type": "module",
@@ -163,7 +163,7 @@ export function createRootPackageJson() {
     type: 'file',
     name: 'package.json',
     content: `{
-  "name": "context-window-planner-monorepo",
+  "name": "@reaatech/context-window-planner-monorepo",
   "version": "0.1.0",
   "private": true,
   "description": "Optimize token allocation within LLM context windows",

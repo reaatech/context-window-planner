@@ -7,8 +7,8 @@
  * @module
  */
 
-import type { PackingContext, PackingStrategy, StrategyOptions } from './base.js';
 import type { ContextItem, PackWarning, PackingResult } from '../types/index.js';
+import type { PackingContext, PackingStrategy, StrategyOptions } from './base.js';
 
 /**
  * Configuration options for the priority-greedy strategy.
@@ -26,10 +26,6 @@ export type PriorityGreedyStrategyOptions = StrategyOptions;
  */
 export class PriorityGreedyStrategy implements PackingStrategy {
   readonly name = 'priority-greedy';
-
-  constructor(_options: PriorityGreedyStrategyOptions = {}) {
-    // No options consumed at present.
-  }
 
   execute(context: PackingContext): PackingResult {
     const effectiveBudget = context.budget.available;
@@ -97,7 +93,7 @@ export class PriorityGreedyStrategy implements PackingStrategy {
  * @returns A new PriorityGreedyStrategy instance
  */
 export function createPriorityGreedyStrategy(
-  options: PriorityGreedyStrategyOptions = {},
+  _options: PriorityGreedyStrategyOptions = {},
 ): PriorityGreedyStrategy {
-  return new PriorityGreedyStrategy(options);
+  return new PriorityGreedyStrategy();
 }

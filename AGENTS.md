@@ -1,7 +1,7 @@
-# AI Agent Guidelines for context-window-planner
+# AI Agent Guidelines for @reaatech/context-window-planner
 
 This document provides guidelines and instructions for AI agents (such as Cline,
-Cursor, GitHub Copilot, etc.) working on the `context-window-planner` project.
+Cursor, GitHub Copilot, etc.) working on the `@reaatech/context-window-planner` project.
 
 ## Project Information
 

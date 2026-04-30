@@ -8,12 +8,12 @@
 
 import {
   ContextPlannerBuilder,
+  Priority,
   createConversationTurn,
   createMockTokenizer,
   createPriorityGreedyStrategy,
   createSystemPrompt,
-  Priority,
-} from 'context-window-planner';
+} from '@reaatech/context-window-planner';
 
 const tokenizer = createMockTokenizer();
 

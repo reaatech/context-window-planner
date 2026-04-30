@@ -9,8 +9,8 @@
  * @module
  */
 
-import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
 import { TokenCache } from '../utils/token-cache.js';
+import type { Message, TokenPattern, TokenizerAdapter } from './adapter.js';
 
 /**
  * Configuration options for the Anthropic tokenizer

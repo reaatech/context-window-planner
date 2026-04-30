@@ -22,8 +22,8 @@ export class ContextPlannerBuilder {
   private tokenizer?: TokenizerAdapter;
   private strategy?: PackingStrategy;
   private items: ReadonlyArray<ContextItem> = [];
-  private reserved: number = 0;
-  private safetyMargin: number = 0.05;
+  private reserved = 0;
+  private safetyMargin = 0.05;
 
   /**
    * Set the total token budget.

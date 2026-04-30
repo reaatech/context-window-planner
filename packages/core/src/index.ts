@@ -1,5 +1,5 @@
 /**
- * context-window-planner
+ * @reaatech/context-window-planner
  *
  * Optimize token allocation within LLM context windows.
  *
